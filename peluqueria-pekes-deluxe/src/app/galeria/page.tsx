@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 export default function GalleryPage() {
   const [isVisible, setIsVisible] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<number | null>(null);
+  const [, setSelectedImage] = useState<number | null>(null);
 
   useEffect(() => {
     setIsMounted(true);

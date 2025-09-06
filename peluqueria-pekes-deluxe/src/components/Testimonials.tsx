@@ -119,7 +119,7 @@ export default function Testimonials() {
 
               {/* Testimonial Text */}
               <blockquote className="text-xl lg:text-2xl text-gray-800 font-medium leading-relaxed mb-8 max-w-3xl mx-auto">
-                "{testimonials[currentTestimonial].text}"
+                &quot;{testimonials[currentTestimonial].text}&quot;
               </blockquote>
 
               {/* Author Info */}

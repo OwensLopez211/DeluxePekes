@@ -10,7 +10,7 @@ export default function Gallery({ onClose }: GalleryProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<number | null>(null);
+  const [, setSelectedImage] = useState<number | null>(null);
 
   useEffect(() => {
     setIsMounted(true);

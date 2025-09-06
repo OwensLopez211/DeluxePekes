@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Read(//mnt/c/Users/Owens/Desktop/pantallas de pelus/**)",
-      "Bash(powershell.exe -Command:*)"
+      "Bash(powershell.exe -Command:*)",
+      "Bash(cd:*)",
+      "Bash(npm install:*)"
     ],
     "deny": [],
     "ask": []

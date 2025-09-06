@@ -1,15 +1,18 @@
 "use client";
 
 import { useState, useRef, useEffect } from 'react';
+import { Clock, Heart, Scissors } from 'lucide-react';
 
 export default function ServicesSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
 
   const services = [
     {
       id: 1,
-      icon: "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z",
+      icon: Clock,
       bgColor: "from-purple-100 to-pink-100",
       iconColor: "text-purple-600",
       borderColor: "border-purple-200",
@@ -18,7 +21,7 @@ export default function ServicesSection() {
     },
     {
       id: 2,
-      icon: "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z",
+      icon: Heart,
       bgColor: "from-pink-100 to-orange-100",
       iconColor: "text-pink-600",
       borderColor: "border-pink-200",
@@ -27,7 +30,7 @@ export default function ServicesSection() {
     },
     {
       id: 3,
-      icon: "M14.828 14.828a4 4 0 01-5.656 0M9 10h1.5a3.5 3.5 0 110 7H9.5v-2",
+      icon: Scissors,
       bgColor: "from-blue-100 to-indigo-100",
       iconColor: "text-blue-600",
       borderColor: "border-blue-200",
@@ -64,11 +67,47 @@ export default function ServicesSection() {
     }
   }, []);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '-50px 0px -50px 0px'
+      }
+    );
+
+    const currentSection = sectionRef.current;
+    if (currentSection) {
+      observer.observe(currentSection);
+    }
+
+    return () => {
+      if (currentSection) {
+        observer.unobserve(currentSection);
+      }
+    };
+  }, []);
+
   return (
-    <section className="relative py-8 lg:py-20">
+    <section 
+      ref={sectionRef}
+      className={`relative py-8 lg:py-20 transition-all duration-1000 ${
+        isVisible 
+          ? 'opacity-100 translate-y-0' 
+          : 'opacity-0 translate-y-20'
+      }`}
+    >
       <div className="container mx-auto px-4">
         {/* Header */}
-        <div className="text-center mb-8 lg:mb-12">
+        <div className={`text-center mb-8 lg:mb-12 transition-all duration-1200 delay-200 ${
+          isVisible 
+            ? 'opacity-100 translate-y-0' 
+            : 'opacity-0 translate-y-10'
+        }`}>
           <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-purple-100 to-pink-100 rounded-full text-sm font-semibold text-purple-700 border border-purple-200 mb-4">
             Reserva
           </div>
@@ -87,7 +126,11 @@ export default function ServicesSection() {
         </div>
 
         {/* Mobile Carousel (< sm) */}
-        <div className="sm:hidden mb-8">
+        <div className={`sm:hidden mb-8 transition-all duration-1000 delay-400 ${
+          isVisible 
+            ? 'opacity-100 translate-y-0' 
+            : 'opacity-0 translate-y-15'
+        }`}>
           <div 
             ref={scrollRef}
             className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-4"
@@ -99,9 +142,7 @@ export default function ServicesSection() {
                 className="flex-shrink-0 w-full snap-center text-center px-2"
               >
                 <div className={`w-20 h-20 bg-gradient-to-br ${service.bgColor} rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg border ${service.borderColor}`}>
-                  <svg className={`w-10 h-10 ${service.iconColor}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={service.icon} />
-                  </svg>
+                  <service.icon className={`w-10 h-10 ${service.iconColor}`} />
                 </div>
                 
                 <h3 className="text-xl font-bold text-gray-900 mb-3">
@@ -134,14 +175,18 @@ export default function ServicesSection() {
         {/* Desktop/Tablet Grid (>= sm) */}
         <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12 mb-8">
           {services.map((service, index) => (
-            <div key={service.id} className={`text-center ${index === 0 ? 'sm:col-span-2 lg:col-span-1' : ''}`}>
+            <div 
+              key={service.id} 
+              className={`text-center ${index === 0 ? 'sm:col-span-2 lg:col-span-1' : ''} transition-all duration-1000 ${
+                index === 0 ? 'delay-600' : index === 1 ? 'delay-800' : 'delay-1000'
+              } ${
+                isVisible 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 translate-y-20'
+              }`}
+            >
               <div className={`w-16 h-16 lg:w-20 lg:h-20 bg-gradient-to-br ${service.bgColor} rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg border ${service.borderColor}`}>
-                <svg className={`w-8 h-8 lg:w-10 lg:h-10 ${service.iconColor}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={service.icon} />
-                  {service.id === 3 && (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7h.01M16 17h.01M12 16h.01" />
-                  )}
-                </svg>
+                <service.icon className={`w-8 h-8 lg:w-10 lg:h-10 ${service.iconColor}`} />
               </div>
               
               <h3 className="text-xl lg:text-2xl font-bold text-gray-900 mb-2">
@@ -166,7 +211,11 @@ export default function ServicesSection() {
         `}</style>
 
         {/* CTA Buttons */}
-        <div className="flex flex-col gap-3 sm:flex-row sm:gap-4 justify-center items-center">
+        <div className={`flex flex-col gap-3 sm:flex-row sm:gap-4 justify-center items-center transition-all duration-1000 delay-1200 ${
+          isVisible 
+            ? 'opacity-100 translate-y-0' 
+            : 'opacity-0 translate-y-10'
+        }`}>
           <a 
             href="https://wa.me/56932308100?text=Hola%2C%20me%20gustar%C3%ADa%20reservar%20una%20cita%20en%20Peluquer%C3%ADa%20Pekes%20Deluxe"
             target="_blank"

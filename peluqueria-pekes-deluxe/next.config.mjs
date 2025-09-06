@@ -3,6 +3,12 @@ const nextConfig = {
   // experimental: {
   //   turbo: {}
   // }
+  eslint: {
+    // Ignora warnings durante el build
+    ignoreDuringBuilds: false,
+    // Solo ejecuta en archivos específicos si es necesario
+    dirs: ['src']
+  },
   async headers() {
     return [
       {
