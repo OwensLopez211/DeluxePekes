@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//mnt/c/Users/Owens/Desktop/pantallas de pelus/**)",
+      "Bash(powershell.exe -Command:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
